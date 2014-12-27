@@ -23,6 +23,7 @@
     "require": {
         "php": ">=5.3.2",
         "webit/shipment-gls-adapter": "dev-master",
+        "webit/gls-bundle": "dev-master",
         "webit/shipment-bundle": "dev-master"
     },
     "require-dev": {

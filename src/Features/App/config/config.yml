@@ -1,0 +1,51 @@
+framework:
+    #esi:             ~
+    #translator:      { fallback: "%locale%" }
+    secret:          secret-token
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    validation:      false
+    default_locale:  en
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    http_method_override: true
+
+doctrine:
+    dbal:
+        driver:   pdo_sqlite
+        charset:  UTF8
+    orm:
+        auto_generate_proxy_classes: %kernel.debug%
+        auto_mapping: true
+        mappings:
+            WebitShipmentBundle:
+                type: xml
+                prefix: Webit\Bundle\ShipmentBundle\Entity
+                dir: %kernel.root_dir%/../../../vendor/webit/shipment-bundle/src/Resources/config/doctrine/orm
+            WebitShipmentTest:
+                type: annotation
+                prefix: Webit\Bundle\ShipmentGlsAdapterBundle\Features\MockEntity
+                dir: %kernel.root_dir%/../../Features/MockEntity
+                is_bundle: false
+webit_shipment:
+    orm:
+        entities:
+            sender_address: Webit\Bundle\ShipmentBundle\Features\MockEntity\Address
+            delivery_address: Webit\Bundle\ShipmentBundle\Features\MockEntity\Address
+
+webit_gls:
+    ade_accounts:
+        alias-1:
+            username: test-username
+            password: test-password
+            test_mode: true
+    track_accounts:
+        alias-1:
+            username: test-username
+            password: test-password
+
+webit_shipment_gls_adapter:
+    ade_account: alias-1
+    trace_account: alias-1

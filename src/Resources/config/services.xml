@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd"
+        >
+    <parameters>
+        <parameter key="webit_shipment_gls_adapter.adapter_factory.class">Webit\Bundle\ShipmentGlsAdapterBundle\Factory\AdapterFactory</parameter>
+        <parameter key="webit_shipment_gls_adapter.vendor_factory_factory.class">Webit\Bundle\ShipmentGlsAdapterBundle\Factory\VendorFactoryFactory</parameter>
+
+        <parameter key="webit_shipment_gls_adapter.mapper.consignment.class">Webit\Shipment\GlsAdapter\Mapper\ConsignmentMapper</parameter>
+        <parameter key="webit_shipment_gls_adapter.mapper.gls_consignment.class">Webit\Shipment\GlsAdapter\Mapper\GlsConsignmentMapper</parameter>
+        <parameter key="webit_shipment_gls_adapter.mapper.pickup.class">Webit\Shipment\GlsAdapter\Mapper\PickupMapper</parameter>
+        <parameter key="webit_shipment_gls_adapter.mapper.service_option.class">Webit\Shipment\GlsAdapter\Mapper\ServiceOptionMapper</parameter>
+        <parameter key="webit_shipment_gls_adapter.vendor_factory.class">Webit\Shipment\GlsAdapter\VendorFactory</parameter>
+        <parameter key="webit_shipment_gls_adapter.adapter.class">Webit\Shipment\GlsAdapter\ShipmentGlsAdapter</parameter>
+    </parameters>
+    <services>
+        <service id="webit_shipment_gls_adapter.adapter_factory" class="%webit_shipment_gls_adapter.adapter_factory.class%" >
+            <argument type="service" id="webit_gls.account_manager" />
+            <argument type="service" id="webit_gls.api_provider" />
+            <argument type="service" id="webit_gls.tracking.url_provider" />
+            <argument type="service" id="webit_shipment_gls_adapter.vendor_factory" />
+            <argument type="service" id="webit_shipment_gls_adapter.mapper.consignment" />
+            <argument type="service" id="webit_shipment_gls_adapter.mapper.gls_consignment" />
+            <argument type="service" id="webit_shipment_gls_adapter.mapper.pickup" />
+        </service>
+        <service id="webit_shipment_gls_adapter.vendor_factory_factory" class="%webit_shipment_gls_adapter.vendor_factory_factory.class%">
+            <argument type="string"></argument>
+            <argument type="service" id="webit_shipment_gls_adapter.mapper.service_option" />
+            <argument type="service" id="webit_gls.api_provider" />
+            <argument type="service" id="webit_gls.account_manager" />
+        </service>
+        <service id="webit_shipment_gls_adapter.mapper.consignment" class="%webit_shipment_gls_adapter.mapper.consignment.class%" public="false" >
+            <argument type="service" id="webit_shipment_gls_adapter.mapper.service_option" />
+        </service>
+        <service id="webit_shipment_gls_adapter.mapper.service_option" class="%webit_shipment_gls_adapter.mapper.service_option.class%" public="false" />
+        <service id="webit_shipment_gls_adapter.mapper.pickup" class="%webit_shipment_gls_adapter.mapper.pickup.class%" public="false" >
+            <argument type="service" id="webit_shipment.repository.dispatch_confirmation" />
+        </service>
+        <service id="webit_shipment_gls_adapter.mapper.gls_consignment" class="%webit_shipment_gls_adapter.mapper.gls_consignment.class%" public="false" >
+            <argument type="service" id="webit_shipment_gls_adapter.mapper.service_option" />
+        </service>
+        <service
+            id="webit_shipment_gls_adapter.vendor_factory" class="%webit_shipment_gls_adapter.vendor_factory.class%" public="false"
+            factory-service="webit_shipment_gls_adapter.vendor_factory_factory" factory-method="createVendorFactory"
+        />
+
+        <service
+            id="webit_shipment_gls_adapter.adapter" class="%webit_shipment_gls_adapter.adapter.class%"
+            factory-service="webit_shipment_gls_adapter.adapter_factory" factory-method="createAdapter"
+        >
+            <tag name="webit_shipment.vendor_adapter" />
+        </service>
+    </services>
+</container>

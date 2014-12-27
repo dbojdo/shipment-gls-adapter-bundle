@@ -2,12 +2,13 @@
 /**
  * WebitShipmentGlsAdapterBundle.php
  *
- * @author dbojdo - Daniel Bojdo <daniel.bojdo@dxi.eu>
+ * @author dbojdo - Daniel Bojdo <daniel.bojdo@web-it.eu>
  * Created on Dec 24, 2014, 12:09
- * Copyright (C) DXI Ltd
  */
 
 namespace Webit\Bundle\ShipmentGlsAdapterBundle;
+
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * Class WebitShipmentGlsAdapterBundle
