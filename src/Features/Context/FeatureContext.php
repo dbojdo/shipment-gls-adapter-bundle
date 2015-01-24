@@ -14,8 +14,10 @@ use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
 use PHPUnit_Framework_Assert as Assert;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Webit\Bundle\GlsBundle\Account\AccountManagerInterface;
+use Webit\Shipment\GlsAdapter\Sender\DefaultSenderAddressProviderInterface;
 
 /**
  * Class FeatureContext
@@ -100,6 +102,34 @@ class FeatureContext implements Context, SnippetAcceptingContext, KernelAwareCon
                 Assert::assertEquals($row['username'], $account->getUsername());
                 Assert::assertEquals($row['password'], $account->getPassword());
             }
+        }
+    }
+
+    /**
+     * @Given there is service :arg1 of type :arg2
+     */
+    public function thereIsServiceOfType($serviceName, $type)
+    {
+        $mockGenerator = new \PHPUnit_Framework_MockObject_Generator();
+        $mock = $mockGenerator->getMock($type);
+        $mockClass = get_class($mock);
+
+        $definition = new Definition($mockClass);
+        $this->kernel->addDefinition($serviceName, $definition);
+    }
+
+    /**
+     * @Then service :arg1 should provide SenderAddress like:
+     */
+    public function serviceShouldReturnSenderAddressLike($serviceName, TableNode $table)
+    {
+        /** @var DefaultSenderAddressProviderInterface $provider */
+        $provider = $this->getContainer()->get($serviceName);
+        $address = $provider->getDefaultSenderAddress();
+
+        foreach ($table as $row) {
+            $getter = sprintf('get%s',ucfirst($row['property']));
+            Assert::assertEquals($row['value'], $address->{$getter}());
         }
     }
 

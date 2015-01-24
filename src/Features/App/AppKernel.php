@@ -24,6 +24,11 @@ class AppKernel extends Kernel
 
     private $configMerge = array();
 
+    /**
+     * @var array
+     */
+    private $definitions = array();
+
     public function __construct($environment, $debug)
     {
         parent::__construct($environment, $debug);
@@ -85,8 +90,22 @@ class AppKernel extends Kernel
         }
 
         file_put_contents($this->getCacheDir() .'/config.yml', $config);
-
         $loader->load($this->getCacheDir() .'/config.yml');
+    }
+
+    protected function buildContainer()
+    {
+        $container = parent::buildContainer();
+        foreach ($this->definitions as $key => $definition) {
+            $container->setDefinition($key, $definition);
+        }
+
+        return $container;
+    }
+
+    public function addDefinition($id, \Symfony\Component\DependencyInjection\Definition $definition)
+    {
+        $this->definitions[$id] = $definition;
     }
 
     /**

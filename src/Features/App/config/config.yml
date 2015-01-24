@@ -30,10 +30,10 @@ doctrine:
                 dir: %kernel.root_dir%/../../Features/MockEntity
                 is_bundle: false
 webit_shipment:
-    orm:
-        entities:
-            sender_address: Webit\Bundle\ShipmentBundle\Features\MockEntity\Address
-            delivery_address: Webit\Bundle\ShipmentBundle\Features\MockEntity\Address
+    orm: true
+    model_map:
+        sender_address: Webit\Bundle\ShipmentBundle\Features\MockEntity\Address
+        delivery_address: Webit\Bundle\ShipmentBundle\Features\MockEntity\Address
 
 webit_gls:
     ade_accounts:
@@ -49,3 +49,9 @@ webit_gls:
 webit_shipment_gls_adapter:
     ade_account: alias-1
     trace_account: alias-1
+    default_sender_address:
+        name1: Test
+        address: Dupa
+        post_code: Cycki
+        post: AAA
+        country: PL
