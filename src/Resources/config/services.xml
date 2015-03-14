@@ -36,9 +36,7 @@
             <argument type="service" id="webit_shipment_gls_adapter.sender.default_sender_address_provider" />
         </service>
         <service id="webit_shipment_gls_adapter.mapper.service_option" class="%webit_shipment_gls_adapter.mapper.service_option.class%" public="false" />
-        <service id="webit_shipment_gls_adapter.mapper.pickup" class="%webit_shipment_gls_adapter.mapper.pickup.class%" public="false" >
-            <argument type="service" id="webit_shipment.repository.dispatch_confirmation" />
-        </service>
+        <service id="webit_shipment_gls_adapter.mapper.pickup" class="%webit_shipment_gls_adapter.mapper.pickup.class%" public="false" />
         <service id="webit_shipment_gls_adapter.mapper.gls_consignment" class="%webit_shipment_gls_adapter.mapper.gls_consignment.class%" public="false" >
             <argument type="service" id="webit_shipment_gls_adapter.mapper.service_option" />
         </service>
