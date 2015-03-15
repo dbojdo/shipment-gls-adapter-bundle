@@ -7,10 +7,11 @@
     <parameters>
         <parameter key="webit_shipment_gls_adapter.adapter_factory.class">Webit\Bundle\ShipmentGlsAdapterBundle\Factory\AdapterFactory</parameter>
         <parameter key="webit_shipment_gls_adapter.vendor_factory_factory.class">Webit\Bundle\ShipmentGlsAdapterBundle\Factory\VendorFactoryFactory</parameter>
+        <parameter key="webit_shipment_gls_adapter.mapper.pickup_factory.class">Webit\Bundle\ShipmentGlsAdapterBundle\Factory\PickupMapperFactory</parameter>
 
         <parameter key="webit_shipment_gls_adapter.mapper.consignment.class">Webit\Shipment\GlsAdapter\Mapper\ConsignmentMapper</parameter>
         <parameter key="webit_shipment_gls_adapter.mapper.gls_consignment.class">Webit\Shipment\GlsAdapter\Mapper\GlsConsignmentMapper</parameter>
-        <parameter key="webit_shipment_gls_adapter.mapper.pickup.class">Webit\Shipment\GlsAdapter\Mapper\PickupMapper</parameter>
+        <parameter key="webit_shipment_gls_adapter.mapper.parcel.class">Webit\Shipment\GlsAdapter\Mapper\ParcelMapper</parameter>
         <parameter key="webit_shipment_gls_adapter.mapper.service_option.class">Webit\Shipment\GlsAdapter\Mapper\ServiceOptionMapper</parameter>
         <parameter key="webit_shipment_gls_adapter.vendor_factory.class">Webit\Shipment\GlsAdapter\VendorFactory</parameter>
         <parameter key="webit_shipment_gls_adapter.adapter.class">Webit\Shipment\GlsAdapter\ShipmentGlsAdapter</parameter>
@@ -23,7 +24,7 @@
             <argument type="service" id="webit_shipment_gls_adapter.vendor_factory" />
             <argument type="service" id="webit_shipment_gls_adapter.mapper.consignment" />
             <argument type="service" id="webit_shipment_gls_adapter.mapper.gls_consignment" />
-            <argument type="service" id="webit_shipment_gls_adapter.mapper.pickup" />
+            <argument type="service" id="webit_shipment_gls_adapter.mapper.pickup_factory" />
         </service>
         <service id="webit_shipment_gls_adapter.vendor_factory_factory" class="%webit_shipment_gls_adapter.vendor_factory_factory.class%">
             <argument type="string"></argument>
@@ -36,7 +37,10 @@
             <argument type="service" id="webit_shipment_gls_adapter.sender.default_sender_address_provider" />
         </service>
         <service id="webit_shipment_gls_adapter.mapper.service_option" class="%webit_shipment_gls_adapter.mapper.service_option.class%" public="false" />
-        <service id="webit_shipment_gls_adapter.mapper.pickup" class="%webit_shipment_gls_adapter.mapper.pickup.class%" public="false" />
+        <service id="webit_shipment_gls_adapter.mapper.parcel" class="%webit_shipment_gls_adapter.mapper.parcel.class%" public="false" />
+        <service id="webit_shipment_gls_adapter.mapper.pickup_factory" class="%webit_shipment_gls_adapter.mapper.pickup_factory.class%" public="false">
+            <argument type="service" id="webit_shipment_gls_adapter.mapper.parcel" />
+        </service>
         <service id="webit_shipment_gls_adapter.mapper.gls_consignment" class="%webit_shipment_gls_adapter.mapper.gls_consignment.class%" public="false" >
             <argument type="service" id="webit_shipment_gls_adapter.mapper.service_option" />
         </service>

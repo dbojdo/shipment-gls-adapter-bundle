@@ -13,7 +13,6 @@ use Webit\Bundle\GlsBundle\Api\ApiProviderInterface;
 use Webit\GlsTracking\UrlProvider\TrackingUrlProvider;
 use Webit\Shipment\GlsAdapter\Mapper\ConsignmentMapper;
 use Webit\Shipment\GlsAdapter\Mapper\GlsConsignmentMapper;
-use Webit\Shipment\GlsAdapter\Mapper\PickupMapper;
 use Webit\Shipment\GlsAdapter\ShipmentGlsAdapter;
 use Webit\Shipment\GlsAdapter\VendorFactory;
 
@@ -45,9 +44,9 @@ class AdapterFactory
     private $glsConsignmentMapper;
 
     /**
-     * @var PickupMapper
+     * @var PickupMapperFactory
      */
-    private $pickupMapper;
+    private $pickupMapperFactory;
     /**
      * @var AccountManagerInterface
      */
@@ -60,7 +59,7 @@ class AdapterFactory
      * @param VendorFactory $vendorFactory
      * @param ConsignmentMapper $consignmentMapper
      * @param GlsConsignmentMapper $glsConsignmentMapper
-     * @param PickupMapper $pickupMapper
+     * @param PickupMapperFactory $pickupMapperFactory
      */
     public function __construct(
         AccountManagerInterface $accountManager,
@@ -69,7 +68,7 @@ class AdapterFactory
         VendorFactory $vendorFactory,
         ConsignmentMapper $consignmentMapper,
         GlsConsignmentMapper $glsConsignmentMapper,
-        PickupMapper $pickupMapper
+        PickupMapperFactory $pickupMapperFactory
     ) {
         $this->accountManager = $accountManager;
         $this->apiProvider = $apiProvider;
@@ -77,7 +76,7 @@ class AdapterFactory
         $this->vendorFactory = $vendorFactory;
         $this->consignmentMapper = $consignmentMapper;
         $this->glsConsignmentMapper = $glsConsignmentMapper;
-        $this->pickupMapper = $pickupMapper;
+        $this->pickupMapperFactory = $pickupMapperFactory;
     }
 
     /**
@@ -97,15 +96,16 @@ class AdapterFactory
             throw new \UnexpectedValueException(sprintf('Cannot find GLS ADE account for alias "%s"', $traceAccountAlias));
         }
 
+        $pickupApi = $this->apiProvider->getAdePickupApi($adeAccount);
         return new ShipmentGlsAdapter(
             $this->apiProvider->getAdeConsignmentPrepareApi($adeAccount),
-            $this->apiProvider->getAdePickupApi($adeAccount),
+            $pickupApi,
             $this->apiProvider->getTrackingApi($traceAccount),
             $this->trackingUrlProvider,
             $this->vendorFactory,
             $this->consignmentMapper,
             $this->glsConsignmentMapper,
-            $this->pickupMapper
+            $this->pickupMapperFactory->createPickupMapper($pickupApi)
         );
     }
 }
