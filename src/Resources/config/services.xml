@@ -53,7 +53,7 @@
             id="webit_shipment_gls_adapter.adapter" class="%webit_shipment_gls_adapter.adapter.class%"
             factory-service="webit_shipment_gls_adapter.adapter_factory" factory-method="createAdapter"
         >
-            <tag name="webit_shipment.vendor_adapter" />
+            <tag name="webit_shipment.vendor_adapter" vendor="gls" />
         </service>
     </services>
 </container>
