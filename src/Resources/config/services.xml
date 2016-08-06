@@ -46,13 +46,14 @@
         </service>
         <service
             id="webit_shipment_gls_adapter.vendor_factory" class="%webit_shipment_gls_adapter.vendor_factory.class%" public="false"
-            factory-service="webit_shipment_gls_adapter.vendor_factory_factory" factory-method="createVendorFactory"
-        />
+        >
+            <factory service="webit_shipment_gls_adapter.vendor_factory_factory" method="createVendorFactory" />
+        </service>
 
         <service
             id="webit_shipment_gls_adapter.adapter" class="%webit_shipment_gls_adapter.adapter.class%"
-            factory-service="webit_shipment_gls_adapter.adapter_factory" factory-method="createAdapter"
         >
+            <factory service="webit_shipment_gls_adapter.adapter_factory" method="createAdapter" />
             <tag name="webit_shipment.vendor_adapter" vendor="gls" />
         </service>
     </services>
