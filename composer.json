@@ -22,7 +22,7 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "webit/shipment-gls-adapter": "dev-master",
+        "webit/shipment-gls-adapter": "^1.0.0",
         "webit/gls-bundle": "dev-master",
         "webit/shipment-bundle": "~1.0"
     },
@@ -36,5 +36,11 @@
             "Webit\\Bundle\\ShipmentGlsAdapterBundle\\": "src"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-1.x": "1.x-dev",
+            "dev-master": "2.x-dev"
+        }
+    }
 }
