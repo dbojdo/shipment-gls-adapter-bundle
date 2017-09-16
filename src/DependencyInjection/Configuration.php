@@ -27,18 +27,6 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('vendor_class')->defaultValue('Webit\Shipment\Vendor\Vendor')->cannotBeEmpty()->end()
             ->scalarNode('ade_account')->cannotBeEmpty()->isRequired()->end()
             ->scalarNode('trace_account')->cannotBeEmpty()->isRequired()->end()
-            ->arrayNode('default_sender_address')
-                ->children()
-                    ->scalarNode('name1')->cannotBeEmpty()->isRequired()->end()
-                    ->scalarNode('name2')->defaultNull()->end()
-                    ->scalarNode('name3')->defaultNull()->end()
-                    ->scalarNode('address')->cannotBeEmpty()->isRequired()->end()
-                    ->scalarNode('post_code')->cannotBeEmpty()->isRequired()->end()
-                    ->scalarNode('post')->cannotBeEmpty()->isRequired()->end()
-                    ->scalarNode('country')->cannotBeEmpty()->isRequired()->end()
-                ->end()
-            ->end()
-            ->scalarNode('default_sender_address_provider')->end()
         ->end();
 
         return $treeBuilder;

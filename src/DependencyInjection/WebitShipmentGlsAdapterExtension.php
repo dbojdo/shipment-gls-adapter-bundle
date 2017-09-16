@@ -43,57 +43,5 @@ class WebitShipmentGlsAdapterExtension extends Extension
         $adapter = $container->getDefinition('webit_shipment_gls_adapter.adapter');
         $adapter->addArgument($config['ade_account']);
         $adapter->addArgument($config['trace_account']);
-
-        $this->loadDefaultSenderAddressProvider($config, $container);
-    }
-
-    private function loadDefaultSenderAddressProvider(array $config, ContainerBuilder $container)
-    {
-        if (! isset($config['default_sender_address']) && ! isset($config['default_sender_address_provider'])) {
-            throw new \LogicException('You must define "default_sender_address" or "default_sender_address_provider" config key.');
-        }
-
-        if (isset($config['default_sender_address']) && isset($config['default_sender_address_provider'])) {
-            throw new \LogicException('You must define only one of config keys: "default_sender_address" or "default_sender_address_provider".');
-        }
-
-        if (isset($config['default_sender_address_provider'])) {
-            $container->setAlias('webit_shipment_gls_adapter.sender.default_sender_address_provider', $config['default_sender_address_provider']);
-            return;
-        }
-
-        $address = $this->createSenderAddress($config['default_sender_address']);
-        $addressProvider = new Definition('Webit\Shipment\GlsAdapter\Sender\DefaultSenderAddressProviderStatic', array(
-            $address
-        ));
-        $addressProvider->setPublic(false);
-
-        $container->setDefinition(
-            'webit_shipment_gls_adapter.sender.default_sender_address_provider.internal',
-            $addressProvider
-        );
-
-        $container->setAlias(
-            'webit_shipment_gls_adapter.sender.default_sender_address_provider',
-            'webit_shipment_gls_adapter.sender.default_sender_address_provider.internal'
-        );
-    }
-
-    /**
-     * @param array $config
-     * @return Definition
-     */
-    private function createSenderAddress($config)
-    {
-        $address = new Definition('Webit\GlsAde\Model\SenderAddress');
-            $address->addMethodCall('setName1', array($config['name1']));
-            $address->addMethodCall('setName2', array($config['name2']));
-            $address->addMethodCall('setName3', array($config['name3']));
-            $address->addMethodCall('setZipCode', array($config['post_code']));
-            $address->addMethodCall('setCity', array($config['post']));
-            $address->addMethodCall('setStreet', array($config['address']));
-            $address->addMethodCall('setCountry', array($config['country']));
-
-        return $address;
     }
 }
