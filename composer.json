@@ -22,7 +22,7 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "webit/shipment-gls-adapter": "^2.0.0",
+        "webit/shipment-gls-adapter": "^2.0.0|^3.0.0",
         "webit/gls-bundle": "^2.0.0",
         "webit/shipment-bundle": "^2.0.0"
     },
